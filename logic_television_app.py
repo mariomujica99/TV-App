@@ -8,9 +8,11 @@ class Logic(QMainWindow, Ui_MainWindow):
     MAX_CHANNEL = 9
 
     def __init__(self):
+        '''
+        Method to set default instance variables.
+        '''
         super().__init__()
         self.setupUi(self)
-
         self.__status = False
         self.__muted = False
         self.__volume = Logic.MIN_VOLUME
@@ -18,7 +20,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.slider_volume.setMinimum(Logic.MIN_VOLUME)
         self.slider_volume.setMaximum(Logic.MAX_VOLUME)
         self.slider_volume.setValue(Logic.MIN_VOLUME)
-
         self.button_0.clicked.connect(lambda: self.channel_buttons())
         self.button_1.clicked.connect(lambda: self.channel_buttons())
         self.button_2.clicked.connect(lambda: self.channel_buttons())
@@ -29,7 +30,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.button_7.clicked.connect(lambda: self.channel_buttons())
         self.button_8.clicked.connect(lambda: self.channel_buttons())
         self.button_9.clicked.connect(lambda: self.channel_buttons())
-
         self.button_power.clicked.connect(lambda: self.power())
         self.button_mute.clicked.connect(lambda: self.mute())
         self.button_plus.clicked.connect(lambda: self.volume_up())
@@ -37,8 +37,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.button_up.clicked.connect(lambda: self.channel_up())
         self.button_down.clicked.connect(lambda: self.channel_down())
 
-
     def power(self):
+        '''
+        Method to turn the tv on and off.
+        '''
         if self.__status:
             self.__status = False
             self.label_channel.setText(f'Power Off')
@@ -49,6 +51,10 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.label_screen.setPixmap(QtGui.QPixmap("hello.jpg"))
 
     def mute(self):
+        '''
+        Method to mute and unmute the tv.
+        :return: mute status.
+        '''
         if self.__status:
             if self.__muted:
                 self.__muted = False
@@ -64,6 +70,9 @@ class Logic(QMainWindow, Ui_MainWindow):
             return self.__muted
 
     def channel_up(self):
+        '''
+        Method to increase the tv channel value.
+        '''
         if self.__status:
             if self.__channel == Logic.MAX_CHANNEL:
                 self.__channel = Logic.MIN_CHANNEL
@@ -75,6 +84,9 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.tv_screen()
 
     def channel_down(self):
+        '''
+        Method to decrease the tv channel value.
+        '''
         if self.__status:
             if self.__channel == Logic.MIN_CHANNEL:
                 self.__channel = Logic.MAX_CHANNEL
@@ -86,6 +98,9 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.tv_screen()
 
     def channel_buttons(self):
+        '''
+        Method for changing the channel to the desired input.
+        '''
         if self.__status:
             sender = self.sender()
             if sender == self.button_0:
@@ -130,6 +145,9 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.tv_screen()
 
     def volume_up(self):
+        '''
+        Methhod to increase the tv volume.
+        '''
         if self.__status:
             if self.__muted:
                 self.mute()
@@ -143,6 +161,9 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.label_volume.setText(f'{self.__volume}')
 
     def volume_down(self):
+        '''
+        Method to decrease the tv volume.
+        '''
         if self.__status:
             if self.__muted:
                 self.mute()
@@ -156,6 +177,10 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.label_volume.setText(f'{self.__volume}')
 
     def tv_screen(self):
+        '''
+        Method for changing the image of the screen
+        to the desired input channel.
+        '''
         if self.__status:
             if self.__channel == 0:
                 self.label_screen.setPixmap(QtGui.QPixmap("hgtv.jpg"))
@@ -177,8 +202,3 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.label_screen.setPixmap(QtGui.QPixmap("abc.jpg"))
             elif self.__channel == 9:
                 self.label_screen.setPixmap(QtGui.QPixmap("ngc.jpg"))
-
-    def __str__(self):
-        return (f'Power = {self.__status}, '
-                f'Channel = {self.__channel}, '
-                f'Volume = {self.__volume}')
